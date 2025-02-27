@@ -92,6 +92,12 @@
     canvas {
       border: 2px solid white;
     }
+
+    .score {
+      font-size: 20px;
+      color: white;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
@@ -107,6 +113,7 @@
   <!-- Pong Game Section -->
   <section id="pong">
     <h2>Pong Game</h2>
+    <div class="score" id="score"></div>
     <canvas id="pong"></canvas>
   </section>
 
@@ -217,6 +224,9 @@
       color: "#FFFFFF"
     };
 
+    let playerScore = 0;
+    let computerScore = 0;
+
     // Draw function to render all game elements
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -250,7 +260,12 @@
       }
 
       // Ball out of bounds
-      if (ball.x + ball.dx < 0 || ball.x + ball.dx > canvas.width) {
+      if (ball.x + ball.dx < 0) {
+        computerScore++;
+        resetBall();
+      }
+      if (ball.x + ball.dx > canvas.width) {
+        playerScore++;
         resetBall();
       }
 
@@ -258,11 +273,11 @@
       player.y += player.dy;
       computer.y += computer.dy;
 
-      // Computer AI to follow the ball
-      if (ball.y < computer.y + computer.height / 2) {
-        computer.dy = -5;
-      } else if (ball.y > computer.y + computer.height / 2) {
+      // Computer AI to follow the ball with a slight delay
+      if (computer.y + computer.height / 2 < ball.y) {
         computer.dy = 5;
+      } else if (computer.y + computer.height / 2 > ball.y) {
+        computer.dy = -5;
       } else {
         computer.dy = 0;
       }
@@ -272,6 +287,9 @@
       if (player.y + player.height > canvas.height) player.y = canvas.height - player.height;
       if (computer.y < 0) computer.y = 0;
       if (computer.y + computer.height > canvas.height) computer.y = canvas.height - computer.height;
+
+      // Update the score display
+      document.getElementById("score").innerHTML = `Player: ${playerScore} - Computer: ${computerScore}`;
 
       requestAnimationFrame(draw);
     }
@@ -286,22 +304,4 @@
 
     // Control player paddle with arrow keys
     document.addEventListener("keydown", function (e) {
-      if (e.key == "ArrowUp") {
-        player.dy = -5;
-      } else if (e.key == "ArrowDown") {
-        player.dy = 5;
-      }
-    });
-
-    document.addEventListener("keyup", function (e) {
-      if (e.key == "ArrowUp" || e.key == "ArrowDown") {
-        player.dy = 0;
-      }
-    });
-
-    // Start the game loop
-    draw();
-  </script>
-
-</body>
-</html>
+      if (e.key == "
