@@ -5,21 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Games and Countdown</title>
   <style>
+    /* General Styles */
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f4f4f4;
+      background-color: #fafafa;
       color: #333;
       text-align: center;
+      line-height: 1.6;
     }
 
+    /* Navigation Styles */
     nav {
       background-color: #333;
-      padding: 10px;
+      padding: 15px 0;
       position: sticky;
       top: 0;
       z-index: 1000;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     nav ul {
@@ -42,34 +46,53 @@
       color: white;
       text-decoration: none;
       font-size: 18px;
-      padding: 10px;
+      padding: 10px 15px;
       display: block;
+      border-radius: 5px;
       transition: background-color 0.3s;
     }
 
     nav a:hover {
       background-color: #575757;
-      border-radius: 5px;
     }
 
+    /* Section Styles */
     section {
-      padding: 50px 20px;
+      padding: 60px 20px;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
-    #pong-container, #rps-container, #countdown-container {
-      margin-top: 30px;
+    section h2 {
+      margin-bottom: 20px;
+      font-size: 2.5rem;
+      color: #333;
+    }
+
+    /* Card-like Section Styling */
+    .card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      max-width: 900px;
+      margin: 20px;
     }
 
     .rps-button {
       padding: 10px 20px;
-      font-size: 20px;
+      font-size: 18px;
       margin: 10px;
       cursor: pointer;
       background-color: #2196f3;
       color: white;
       border: none;
       border-radius: 5px;
+      transition: background-color 0.3s ease;
     }
 
     .rps-button:hover {
@@ -77,9 +100,10 @@
     }
 
     .rps-result {
-      font-size: 22px;
+      font-size: 20px;
       margin-top: 20px;
       font-weight: bold;
+      color: #333;
     }
 
     .countdown {
@@ -88,15 +112,21 @@
       color: #e91e63;
     }
 
-    /* Pong game styles */
+    /* Pong Game Styles */
     canvas {
-      border: 2px solid white;
+      border: 2px solid #FFFFFF;
+      background-color: #1d1d1d;
     }
 
     .score {
-      font-size: 20px;
+      font-size: 22px;
       color: white;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
+    }
+
+    /* Countdown Styles */
+    #countdown-container {
+      text-align: center;
     }
   </style>
 </head>
@@ -112,26 +142,30 @@
 
   <!-- Pong Game Section -->
   <section id="pong">
-    <h2>Pong Game</h2>
-    <div class="score" id="score"></div>
-    <canvas id="pong"></canvas>
+    <div class="card">
+      <h2>Pong Game</h2>
+      <div class="score" id="score"></div>
+      <canvas id="pong"></canvas>
+    </div>
   </section>
 
   <!-- Rock-Paper-Scissors Section -->
   <section id="rps">
-    <h2>Rock, Paper, Scissors</h2>
-    <div id="rps-container">
-      <button class="rps-button" id="rock">Rock</button>
-      <button class="rps-button" id="paper">Paper</button>
-      <button class="rps-button" id="scissors">Scissors</button>
+    <div class="card">
+      <h2>Rock, Paper, Scissors</h2>
+      <div id="rps-container">
+        <button class="rps-button" id="rock">Rock</button>
+        <button class="rps-button" id="paper">Paper</button>
+        <button class="rps-button" id="scissors">Scissors</button>
+      </div>
       <div class="rps-result" id="rps-result"></div>
     </div>
   </section>
 
   <!-- Countdown Timer Section -->
   <section id="countdown">
-    <h2>Countdown to the Last Day of School</h2>
-    <div id="countdown-container">
+    <div class="card">
+      <h2>Countdown to the Last Day of School</h2>
       <div class="countdown" id="countdown-timer"></div>
     </div>
   </section>
@@ -286,22 +320,4 @@
       if (player.y < 0) player.y = 0;
       if (player.y + player.height > canvas.height) player.y = canvas.height - player.height;
       if (computer.y < 0) computer.y = 0;
-      if (computer.y + computer.height > canvas.height) computer.y = canvas.height - computer.height;
-
-      // Update the score display
-      document.getElementById("score").innerHTML = `Player: ${playerScore} - Computer: ${computerScore}`;
-
-      requestAnimationFrame(draw);
-    }
-
-    // Reset ball to center after a point is scored
-    function resetBall() {
-      ball.x = canvas.width / 2;
-      ball.y = canvas.height / 2;
-      ball.dx = -ball.dx;
-      ball.dy = 5;
-    }
-
-    // Control player paddle with arrow keys
-    document.addEventListener("keydown", function (e) {
-      if (e.key == "
+      if (computer.y + computer.height > canvas.height) computer.y = canvas.height -
