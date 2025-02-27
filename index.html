@@ -39,21 +39,91 @@
       color: #ff69b4;
     }
 
-    .social-container {
+    .rps-container {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 20px 0;
+      justify-content: center;
+      margin-top: 20px;
     }
 
-    .social-container h3 {
-      font-size: 1.5rem;
-      color: #ff69b4;
-    }
-
-    iframe, .tiktok-embed {
+    .rps-button {
+      padding: 15px 30px;
+      font-size: 20px;
+      margin: 10px;
+      cursor: pointer;
+      background-color: #ff8c00;
+      color: white;
       border: none;
-      max-width: 100%;
+      border-radius: 10px;
+      transition: background-color 0.3s;
+    }
+
+    .rps-button:hover {
+      background-color: #ff6347;
+    }
+
+    .countdown {
+      font-size: 2rem;
+      color: #e91e63;
+      font-weight: bold;
+    }
+
+    #score-counter {
+      font-size: 1.5rem;
+      color: #ff4500;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    footer {
+      background-color: #ff69b4;
+      padding: 10px;
+      color: white;
+      margin-top: 30px;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .countdown-container {
+      margin-top: 20px;
+    }
+
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav ul li {
+      margin: 0 15px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .color-button {
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .color-button:hover {
+      background-color: #45a049;
     }
 
   </style>
@@ -69,7 +139,6 @@
     <ul>
       <li><a href="#rps">Rock-Paper-Scissors</a></li>
       <li><a href="#countdown">Countdown</a></li>
-      <li><a href="#social-feed">Social Media</a></li>
       <li><a href="https://oliveroriginals.com" target="_blank">Visit Oliver Originals</a></li>
     </ul>
   </nav>
@@ -92,31 +161,92 @@
     </div>
   </section>
 
-  <section id="social-feed">
-    <h2>🌟 My Social Media Feeds 🌟</h2>
-
-    <!-- Instagram Feed -->
-    <div class="social-container">
-      <h3>📸 Instagram</h3>
-      <iframe src="https://www.instagram.com/YOUR_INSTAGRAM_USERNAME/embed" 
-              width="320" height="400" 
-              frameborder="0" scrolling="no" allowtransparency="true"></iframe>
-    </div>
-
-    <!-- TikTok Feed -->
-    <div class="social-container">
-      <h3>🎵 TikTok</h3>
-      <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@YOUR_TIKTOK_USERNAME" 
-                  data-unique-id="YOUR_TIKTOK_USERNAME">
-        <section> </section>
-      </blockquote>
-      <script async src="https://www.tiktok.com/embed.js"></script>
-    </div>
+  <section>
+    <button class="color-button" id="color-button">Change Background Color</button>
   </section>
 
   <footer>
     <p>&copy; 2025 My Fun Website. All rights reserved. <a href="https://oliveroriginals.com" target="_blank">Visit Oliver Originals</a></p>
   </footer>
+
+  <script>
+    let playerScore = 0;
+
+    function launchConfetti() {
+      const confettiCanvas = document.createElement("canvas");
+      confettiCanvas.style.position = "fixed";
+      confettiCanvas.style.top = "0";
+      confettiCanvas.style.left = "0";
+      confettiCanvas.style.width = "100vw";
+      confettiCanvas.style.height = "100vh";
+      confettiCanvas.style.pointerEvents = "none";
+      document.body.appendChild(confettiCanvas);
+
+      const confettiCtx = confettiCanvas.getContext("2d");
+      const confettiParticles = [];
+
+      for (let i = 0; i < 100; i++) {
+        confettiParticles.push({
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight - window.innerHeight,
+          size: Math.random() * 10 + 5,
+          speed: Math.random() * 3 + 2,
+          color: hsl(${Math.random() * 360}, 100%, 70%)
+        });
+      }
+
+      function drawConfetti() {
+        confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        confettiParticles.forEach((p, i) => {
+          p.y += p.speed;
+          confettiCtx.fillStyle = p.color;
+          confettiCtx.beginPath();
+          confettiCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          confettiCtx.fill();
+
+          if (p.y > window.innerHeight) confettiParticles[i].y = -10;
+        });
+        requestAnimationFrame(drawConfetti);
+      }
+
+      drawConfetti();
+      setTimeout(() => document.body.removeChild(confettiCanvas), 3000);
+    }
+
+    function playRPS(playerChoice) {
+      const choices = ['rock', 'paper', 'scissors'];
+      const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+      let result = '';
+
+      if (playerChoice === computerChoice) {
+        result = 'It\'s a draw!';
+      } else if (
+        (playerChoice === 'rock' && computerChoice === 'scissors') ||
+        (playerChoice === 'paper' && computerChoice === 'rock') ||
+        (playerChoice === 'scissors' && computerChoice === 'paper')
+      ) {
+        result = 'You win!';
+        playerScore++;
+        document.getElementById("score-counter").textContent = Score: ${playerScore};
+        launchConfetti();
+      } else {
+        result = 'Computer wins!';
+      }
+
+      document.getElementById("rps-result").textContent = You chose ${playerChoice}. Computer chose ${computerChoice}. ${result};
+    }
+
+    document.getElementById("rock").addEventListener("click", () => playRPS('rock'));
+    document.getElementById("paper").addEventListener("click", () => playRPS('paper'));
+    document.getElementById("scissors").addEventListener("click", () => playRPS('scissors'));
+
+    function changeBackgroundColor() {
+      const colors = ["#FFEBCD", "#FF69B4", "#FFD700", "#8A2BE2", "#98FB98"];
+      document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    document.getElementById("color-button").addEventListener("click", changeBackgroundColor);
+  </script>
 
 </body>
 </html>
