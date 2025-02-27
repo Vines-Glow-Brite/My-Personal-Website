@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Website with Navigation</title>
+  <title>Games and Countdown</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,6 +11,7 @@
       padding: 0;
       background-color: #f4f4f4;
       color: #333;
+      text-align: center;
     }
 
     nav {
@@ -51,52 +52,13 @@
       border-radius: 5px;
     }
 
-    #menuToggle {
-      display: none;
-      font-size: 30px;
-      color: white;
-      background-color: #333;
-      border: none;
-      cursor: pointer;
-    }
-
-    /* Mobile responsive navigation */
-    nav ul {
-      flex-direction: column;
-      display: none;
-    }
-
-    nav.active ul {
-      display: flex;
-    }
-
-    @media (max-width: 768px) {
-      #menuToggle {
-        display: block;
-      }
-    }
-
     section {
       padding: 50px 20px;
       min-height: 100vh;
     }
 
-    #home { background-color: #ffeb3b; }
-    #about { background-color: #4caf50; }
-    #services { background-color: #2196f3; }
-    #contact { background-color: #ff5722; }
-
-    /* Welcome message styles */
-    #welcome-message {
-      font-size: 24px;
-      font-weight: bold;
-      margin-top: 20px;
-    }
-
-    /* Rock Paper Scissors game styles */
-    #rps-container {
+    #pong-container, #rps-container, #countdown-container {
       margin-top: 30px;
-      text-align: center;
     }
 
     .rps-button {
@@ -120,28 +82,38 @@
       font-weight: bold;
     }
 
+    .countdown {
+      font-size: 30px;
+      font-weight: bold;
+      color: #e91e63;
+    }
+
+    /* Pong game styles */
+    canvas {
+      border: 2px solid white;
+    }
   </style>
 </head>
 <body>
 
   <nav>
-    <button id="menuToggle">☰</button>
     <ul>
-      <li><a href="#home">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#pong">Pong Game</a></li>
+      <li><a href="#rps">Rock-Paper-Scissors</a></li>
+      <li><a href="#countdown">Countdown</a></li>
     </ul>
   </nav>
 
-  <section id="home">
-    <h2>Welcome to Home</h2>
-    <p>This is the home section of the website.</p>
-    <div id="welcome-message"></div> <!-- Display welcome message here -->
+  <!-- Pong Game Section -->
+  <section id="pong">
+    <h2>Pong Game</h2>
+    <canvas id="pong"></canvas>
+  </section>
 
-    <!-- Rock Paper Scissors Game Section -->
+  <!-- Rock-Paper-Scissors Section -->
+  <section id="rps">
+    <h2>Rock, Paper, Scissors</h2>
     <div id="rps-container">
-      <h3>Play Rock, Paper, Scissors!</h3>
       <button class="rps-button" id="rock">Rock</button>
       <button class="rps-button" id="paper">Paper</button>
       <button class="rps-button" id="scissors">Scissors</button>
@@ -149,51 +121,37 @@
     </div>
   </section>
 
-  <section id="about">
-    <h2>About Us</h2>
-    <p>This section contains information about us.</p>
-  </section>
-
-  <section id="services">
-    <h2>Our Services</h2>
-    <p>Here we list the services we offer.</p>
-  </section>
-
-  <section id="contact">
-    <h2>Contact Us</h2>
-    <p>This section contains our contact details.</p>
+  <!-- Countdown Timer Section -->
+  <section id="countdown">
+    <h2>Countdown to the Last Day of School</h2>
+    <div id="countdown-container">
+      <div class="countdown" id="countdown-timer"></div>
+    </div>
   </section>
 
   <script>
-    // Function to generate a welcome message based on time of day
-    function displayWelcomeMessage() {
-      const welcomeMessageElement = document.getElementById("welcome-message");
-      const currentHour = new Date().getHours();
-      let message = '';
+    // Countdown Timer to May 30, 2025
+    function updateCountdown() {
+      const countdownDate = new Date("May 30, 2025 23:59:59").getTime();
+      const now = new Date().getTime();
+      const timeLeft = countdownDate - now;
 
-      if (currentHour >= 5 && currentHour < 12) {
-        message = 'Good Morning!';
-      } else if (currentHour >= 12 && currentHour < 18) {
-        message = 'Good Afternoon!';
-      } else {
-        message = 'Good Evening!';
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+      document.getElementById("countdown-timer").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+      if (timeLeft < 0) {
+        clearInterval(countdownInterval);
+        document.getElementById("countdown-timer").innerHTML = "The day has arrived!";
       }
-
-      welcomeMessageElement.textContent = message;
     }
 
-    // Call the function when the page loads
-    window.onload = displayWelcomeMessage;
+    const countdownInterval = setInterval(updateCountdown, 1000);
 
-    // Mobile Navigation Toggle
-    const menuToggle = document.getElementById("menuToggle");
-    const nav = document.querySelector("nav");
-
-    menuToggle.addEventListener("click", () => {
-      nav.classList.toggle("active");
-    });
-
-    // Rock Paper Scissors Game Logic
+    // Rock-Paper-Scissors Game Logic
     function playRPS(playerChoice) {
       const choices = ['rock', 'paper', 'scissors'];
       const computerChoice = choices[Math.floor(Math.random() * choices.length)];
@@ -219,6 +177,130 @@
     document.getElementById("rock").addEventListener("click", () => playRPS('rock'));
     document.getElementById("paper").addEventListener("click", () => playRPS('paper'));
     document.getElementById("scissors").addEventListener("click", () => playRPS('scissors'));
+
+    // Pong Game Code
+    const canvas = document.getElementById("pong");
+    const ctx = canvas.getContext("2d");
+
+    // Set up the canvas size
+    canvas.width = 800;
+    canvas.height = 400;
+
+    // Create the paddle objects
+    const paddleWidth = 10, paddleHeight = 100;
+    const player = {
+      x: 0,
+      y: canvas.height / 2 - paddleHeight / 2,
+      width: paddleWidth,
+      height: paddleHeight,
+      color: "#FF0000",
+      dy: 0
+    };
+
+    const computer = {
+      x: canvas.width - paddleWidth,
+      y: canvas.height / 2 - paddleHeight / 2,
+      width: paddleWidth,
+      height: paddleHeight,
+      color: "#00FF00",
+      dy: 0
+    };
+
+    // Create the ball object
+    const ball = {
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      radius: 10,
+      speed: 5,
+      dx: 5,
+      dy: 5,
+      color: "#FFFFFF"
+    };
+
+    // Draw function to render all game elements
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw paddles
+      ctx.fillStyle = player.color;
+      ctx.fillRect(player.x, player.y, player.width, player.height);
+
+      ctx.fillStyle = computer.color;
+      ctx.fillRect(computer.x, computer.y, computer.width, computer.height);
+
+      // Draw the ball
+      ctx.fillStyle = ball.color;
+      ctx.beginPath();
+      ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Move the ball
+      ball.x += ball.dx;
+      ball.y += ball.dy;
+
+      // Ball collision with top and bottom walls
+      if (ball.y + ball.dy < ball.radius || ball.y + ball.dy > canvas.height - ball.radius) {
+        ball.dy = -ball.dy;
+      }
+
+      // Ball collision with paddles
+      if (ball.x - ball.radius < player.x + player.width && ball.y > player.y && ball.y < player.y + player.height ||
+          ball.x + ball.radius > computer.x && ball.y > computer.y && ball.y < computer.y + computer.height) {
+        ball.dx = -ball.dx;
+      }
+
+      // Ball out of bounds
+      if (ball.x + ball.dx < 0 || ball.x + ball.dx > canvas.width) {
+        resetBall();
+      }
+
+      // Move the paddles
+      player.y += player.dy;
+      computer.y += computer.dy;
+
+      // Computer AI to follow the ball
+      if (ball.y < computer.y + computer.height / 2) {
+        computer.dy = -5;
+      } else if (ball.y > computer.y + computer.height / 2) {
+        computer.dy = 5;
+      } else {
+        computer.dy = 0;
+      }
+
+      // Prevent paddles from going out of bounds
+      if (player.y < 0) player.y = 0;
+      if (player.y + player.height > canvas.height) player.y = canvas.height - player.height;
+      if (computer.y < 0) computer.y = 0;
+      if (computer.y + computer.height > canvas.height) computer.y = canvas.height - computer.height;
+
+      requestAnimationFrame(draw);
+    }
+
+    // Reset ball to center after a point is scored
+    function resetBall() {
+      ball.x = canvas.width / 2;
+      ball.y = canvas.height / 2;
+      ball.dx = -ball.dx;
+      ball.dy = 5;
+    }
+
+    // Control player paddle with arrow keys
+    document.addEventListener("keydown", function (e) {
+      if (e.key == "ArrowUp") {
+        player.dy = -5;
+      } else if (e.key == "ArrowDown") {
+        player.dy = 5;
+      }
+    });
+
+    document.addEventListener("keyup", function (e) {
+      if (e.key == "ArrowUp" || e.key == "ArrowDown") {
+        player.dy = 0;
+      }
+    });
+
+    // Start the game loop
+    draw();
   </script>
 
 </body>
