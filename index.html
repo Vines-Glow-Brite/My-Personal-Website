@@ -125,7 +125,7 @@
 <body>
 
   <header>
-    <h1 id="welcome-message">♡ 𝒲𝑒𝓁𝒸𝑜𝓂𝑒 𝓉𝑜 𝓂𝓎 𝓌𝑒𝒷𝓈𝒾𝓉𝑒! ♡</h1>
+    <h1>♡ 𝒲𝑒𝓁𝒸𝑜𝓂𝑒 𝓉𝑜 𝓂𝓎 𝓌𝑒𝒷𝓈𝒾𝓉𝑒! ♡</h1>
     <p>Made by Gwen Oliver!</p>
   </header>
 
@@ -164,26 +164,6 @@
   </footer>
 
   <script>
-    // Function to display welcome message based on the time of day
-    function displayWelcomeMessage() {
-      const hours = new Date().getHours();
-      let welcomeText = '';
-
-      if (hours < 12) {
-        welcomeText = 'Good Morning!';
-      } else if (hours < 18) {
-        welcomeText = 'Good Afternoon!';
-      } else {
-        welcomeText = 'Good Evening!';
-      }
-
-      // Update the header with the welcome message
-      document.getElementById('welcome-message').textContent = `♡ ${welcomeText} 𝒲𝑒𝓁𝒸𝑜𝓂𝑒 𝓉𝑜 𝓂𝓎 𝓌𝑒𝒷𝓈𝒾𝓉𝑒! ♡`;
-    }
-
-    // Call the displayWelcomeMessage function
-    displayWelcomeMessage();
-
     // Countdown Timer to May 30, 2025
     function updateCountdown() {
       const countdownDate = new Date("May 30, 2025 23:59:59").getTime();
