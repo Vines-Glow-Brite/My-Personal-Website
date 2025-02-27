@@ -13,6 +13,7 @@
       color: #333;
       text-align: center;
       padding-bottom: 50px;
+      transition: background 1s;
     }
 
     header {
@@ -21,22 +22,12 @@
       color: white;
     }
 
-    header h1 {
-      font-size: 3rem;
-      margin: 0;
-    }
-
     section {
       margin: 30px 20px;
       padding: 20px;
       background-color: #fff;
       border-radius: 10px;
       box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    section h2 {
-      font-size: 2rem;
-      color: #ff69b4;
     }
 
     .rps-container {
@@ -67,63 +58,37 @@
       font-weight: bold;
     }
 
-    #score-counter {
-      font-size: 1.5rem;
-      color: #ff4500;
-      font-weight: bold;
-      margin-top: 10px;
-    }
-
-    footer {
-      background-color: #ff69b4;
-      padding: 10px;
-      color: white;
-      margin-top: 30px;
-    }
-
-    footer p {
-      margin: 0;
-      font-size: 1.2rem;
-    }
-
-    .countdown-container {
-      margin-top: 20px;
-    }
-
-    nav ul {
-      list-style-type: none;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-    }
-
-    nav ul li {
-      margin: 0 15px;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-size: 18px;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    .color-button {
-      padding: 10px 20px;
-      font-size: 18px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
+    /* Small Interactive Avatar */
+    .avatar {
+      width: 100px;
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: transform 0.3s;
     }
 
-    .color-button:hover {
-      background-color: #45a049;
+    .avatar.happy {
+      animation: bounce 1s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Secret Rainbow Mode */
+    .rainbow {
+      animation: rainbowBG 3s infinite linear;
+    }
+
+    @keyframes rainbowBG {
+      0% { background: red; }
+      20% { background: orange; }
+      40% { background: yellow; }
+      60% { background: green; }
+      80% { background: blue; }
+      100% { background: violet; }
     }
 
   </style>
@@ -135,14 +100,6 @@
     <p>Made by Gwen Oliver!</p>
   </header>
 
-  <nav>
-    <ul>
-      <li><a href="#rps">Rock-Paper-Scissors</a></li>
-      <li><a href="#countdown">Countdown</a></li>
-      <li><a href="https://oliveroriginals.com" target="_blank">Visit Oliver Originals</a></li>
-    </ul>
-  </nav>
-
   <section id="rps">
     <h2>Rock, Paper, Scissors Game</h2>
     <div class="rps-container">
@@ -150,69 +107,25 @@
       <button class="rps-button" id="paper">Paper</button>
       <button class="rps-button" id="scissors">Scissors</button>
     </div>
-    <div class="rps-result" id="rps-result"></div>
-    <p id="score-counter">Score: 0</p>
+    <div id="rps-result"></div>
   </section>
 
   <section id="countdown">
     <h2>Countdown to May 30, 2025</h2>
-    <div class="countdown-container">
-      <div class="countdown" id="countdown-timer"></div>
-    </div>
-  </section>
-
-  <section>
-    <button class="color-button" id="color-button">Change Background Color</button>
+    <div class="countdown" id="countdown-timer"></div>
   </section>
 
   <footer>
-    <p>&copy; 2025 My Fun Website. All rights reserved. <a href="https://oliveroriginals.com" target="_blank">Visit Oliver Originals</a></p>
+    <p>&copy; 2025 My Fun Website. All rights reserved.</p>
   </footer>
 
+  <!-- Interactive Avatar -->
+  <img src="https://i.imgur.com/6Nf3U7f.png" alt="Cute Avatar" id="avatar" class="avatar">
+
   <script>
-    let playerScore = 0;
-
-    function launchConfetti() {
-      const confettiCanvas = document.createElement("canvas");
-      confettiCanvas.style.position = "fixed";
-      confettiCanvas.style.top = "0";
-      confettiCanvas.style.left = "0";
-      confettiCanvas.style.width = "100vw";
-      confettiCanvas.style.height = "100vh";
-      confettiCanvas.style.pointerEvents = "none";
-      document.body.appendChild(confettiCanvas);
-
-      const confettiCtx = confettiCanvas.getContext("2d");
-      const confettiParticles = [];
-
-      for (let i = 0; i < 100; i++) {
-        confettiParticles.push({
-          x: Math.random() * window.innerWidth,
-          y: Math.random() * window.innerHeight - window.innerHeight,
-          size: Math.random() * 10 + 5,
-          speed: Math.random() * 3 + 2,
-          color: `hsl(${Math.random() * 360}, 100%, 70%)`
-        });
-      }
-
-      function drawConfetti() {
-        confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-        confettiParticles.forEach((p, i) => {
-          p.y += p.speed;
-          confettiCtx.fillStyle = p.color;
-          confettiCtx.beginPath();
-          confettiCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          confettiCtx.fill();
-
-          if (p.y > window.innerHeight) confettiParticles[i].y = -10;
-        });
-        requestAnimationFrame(drawConfetti);
-      }
-
-      drawConfetti();
-      setTimeout(() => document.body.removeChild(confettiCanvas), 3000);
-    }
-
+    let score = 0;
+    let avatarClicks = 0;
+    
     function playRPS(playerChoice) {
       const choices = ['rock', 'paper', 'scissors'];
       const computerChoice = choices[Math.floor(Math.random() * choices.length)];
@@ -226,9 +139,12 @@
         (playerChoice === 'scissors' && computerChoice === 'paper')
       ) {
         result = 'You win!';
-        playerScore++;
-        document.getElementById("score-counter").textContent = `Score: ${playerScore}`;
-        launchConfetti();
+        score++;
+        document.getElementById("avatar").classList.add("happy");
+        setTimeout(() => {
+          document.getElementById("avatar").classList.remove("happy");
+        }, 3000);
+        confettiEffect();
       } else {
         result = 'Computer wins!';
       }
@@ -236,16 +152,34 @@
       document.getElementById("rps-result").textContent = `You chose ${playerChoice}. Computer chose ${computerChoice}. ${result}`;
     }
 
+    // Add event listeners
     document.getElementById("rock").addEventListener("click", () => playRPS('rock'));
     document.getElementById("paper").addEventListener("click", () => playRPS('paper'));
     document.getElementById("scissors").addEventListener("click", () => playRPS('scissors'));
 
-    function changeBackgroundColor() {
-      const colors = ["#FFEBCD", "#FF69B4", "#FFD700", "#8A2BE2", "#98FB98"];
-      document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    // Confetti Effect
+    function confettiEffect() {
+      const confetti = document.createElement("div");
+      confetti.innerHTML = "🎉";
+      confetti.style.position = "fixed";
+      confetti.style.left = Math.random() * 100 + "vw";
+      confetti.style.top = "-10px";
+      confetti.style.fontSize = "2rem";
+      confetti.style.animation = "fall 2s ease-out forwards";
+      
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2000);
     }
 
-    document.getElementById("color-button").addEventListener("click", changeBackgroundColor);
+    // Secret Rainbow Mode Activation
+    document.getElementById("avatar").addEventListener("click", () => {
+      avatarClicks++;
+      if (avatarClicks === 3) {
+        document.body.classList.toggle("rainbow");
+        avatarClicks = 0;
+      }
+    });
+
   </script>
 
 </body>
