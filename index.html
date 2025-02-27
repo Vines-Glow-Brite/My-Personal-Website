@@ -104,6 +104,7 @@
       text-decoration: underline;
     }
 
+    /* New button style for background color change */
     .color-button {
       padding: 10px 20px;
       font-size: 18px;
@@ -119,12 +120,6 @@
       background-color: #45a049;
     }
 
-    /* Styling for the games */
-    .game-container {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-    }
   </style>
 </head>
 <body>
@@ -138,16 +133,10 @@
     <ul>
       <li><a href="#rps">Rock-Paper-Scissors</a></li>
       <li><a href="#countdown">Countdown</a></li>
-      <li><a href="#memory-game">Memory Game</a></li>
-      <li><a href="#trivia-game">Trivia Game</a></li>
-      <li><a href="#maze-game">Maze Game</a></li>
-      <li><a href="#tic-tac-toe">Tic-Tac-Toe</a></li>
-      <li><a href="#snake-game">Snake Game</a></li>
       <li><a href="https://oliveroriginals.com" target="_blank">Visit Oliver Originals</a></li>
     </ul>
   </nav>
 
-  <!-- Rock-Paper-Scissors -->
   <section id="rps">
     <h2>Rock, Paper, Scissors Game</h2>
     <div class="rps-container">
@@ -158,7 +147,6 @@
     <div class="rps-result" id="rps-result"></div>
   </section>
 
-  <!-- Countdown Timer -->
   <section id="countdown">
     <h2>Countdown to May 30, 2025</h2>
     <div class="countdown-container">
@@ -166,47 +154,7 @@
     </div>
   </section>
 
-  <!-- Memory Game -->
-  <section id="memory-game">
-    <h2>Memory Game</h2>
-    <div class="game-container">
-      <button onclick="startMemoryGame()">Start Memory Game</button>
-      <div id="memory-board"></div>
-    </div>
-  </section>
-
-  <!-- Trivia Game -->
-  <section id="trivia-game">
-    <h2>Trivia Game</h2>
-    <button onclick="startTriviaGame()">Start Trivia Game</button>
-    <div id="trivia-question"></div>
-  </section>
-
-  <!-- Maze Game -->
-  <section id="maze-game">
-    <h2>Maze Game</h2>
-    <div class="game-container">
-      <button onclick="startMazeGame()">Start Maze Game</button>
-      <div id="maze"></div>
-    </div>
-  </section>
-
-  <!-- Tic-Tac-Toe -->
-  <section id="tic-tac-toe">
-    <h2>Two-Player Tic-Tac-Toe</h2>
-    <div id="tic-tac-toe-board"></div>
-  </section>
-
-  <!-- Snake Game -->
-  <section id="snake-game">
-    <h2>Snake Game</h2>
-    <div class="game-container">
-      <button onclick="startSnakeGame()">Start Snake Game</button>
-      <canvas id="snake-canvas" width="300" height="300"></canvas>
-    </div>
-  </section>
-
-  <!-- Background Color Button -->
+  <!-- New Button for Changing Background Color -->
   <section>
     <button class="color-button" id="color-button">Change Background Color</button>
   </section>
@@ -274,25 +222,6 @@
     // Add event listener to the color button
     document.getElementById("color-button").addEventListener("click", changeBackgroundColor);
 
-    // Memory Game (Dummy Start function)
-    function startMemoryGame() {
-      alert("Starting Memory Game...");
-    }
-
-    // Trivia Game (Dummy Start function)
-    function startTriviaGame() {
-      alert("Starting Trivia Game...");
-    }
-
-    // Maze Game (Dummy Start function)
-    function startMazeGame() {
-      alert("Starting Maze Game...");
-    }
-
-    // Snake Game (Dummy Start function)
-    function startSnakeGame() {
-      alert("Starting Snake Game...");
-    }
   </script>
 
 </body>
