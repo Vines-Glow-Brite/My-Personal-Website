@@ -85,6 +85,13 @@
     #about { background-color: #4caf50; }
     #services { background-color: #2196f3; }
     #contact { background-color: #ff5722; }
+
+    /* Welcome message styles */
+    #welcome-message {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -102,6 +109,7 @@
   <section id="home">
     <h2>Welcome to Home</h2>
     <p>This is the home section of the website.</p>
+    <div id="welcome-message"></div> <!-- Display welcome message here -->
   </section>
 
   <section id="about">
@@ -120,6 +128,27 @@
   </section>
 
   <script>
+    // Function to generate a welcome message based on time of day
+    function displayWelcomeMessage() {
+      const welcomeMessageElement = document.getElementById("welcome-message");
+      const currentHour = new Date().getHours();
+      let message = '';
+
+      if (currentHour >= 5 && currentHour < 12) {
+        message = 'Good Morning!';
+      } else if (currentHour >= 12 && currentHour < 18) {
+        message = 'Good Afternoon!';
+      } else {
+        message = 'Good Evening!';
+      }
+
+      welcomeMessageElement.textContent = message;
+    }
+
+    // Call the function when the page loads
+    window.onload = displayWelcomeMessage;
+
+    // Mobile Navigation Toggle
     const menuToggle = document.getElementById("menuToggle");
     const nav = document.querySelector("nav");
 
