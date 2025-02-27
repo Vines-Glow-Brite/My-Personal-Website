@@ -1,28 +1,30 @@
-let playerScore = 0;
-let computerScore = 0;
-
-function drawScore() {
-  ctx.font = "30px Arial";
-  ctx.fillStyle = "#FFFFFF";
-  ctx.fillText("Player: " + playerScore, canvas.width / 4, 30);
-  ctx.fillText("Computer: " + computerScore, canvas.width * 3 / 4 - 100, 30);
+/* Default Light Mode Styles */
+body {
+  background-color: #ffffff;
+  color: #000000;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-function resetBall() {
-  ball.x = canvas.width / 2;
-  ball.y = canvas.height / 2;
-  ball.dx = -ball.dx;
-  ball.dy = 5;
-
-  if (ball.x < 0) {
-    computerScore++;
-  } else {
-    playerScore++;
-  }
+/* Dark Mode Styles */
+body.dark-mode {
+  background-color: #181818;
+  color: #ffffff;
 }
 
-function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawScore();
-  // Rest of the draw function...
+#pong {
+  border: 2px solid white; /* you can customize the border color for dark mode */
+}
+
+button {
+  background-color: #444;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #555;
 }
