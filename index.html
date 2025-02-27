@@ -92,6 +92,34 @@
       font-weight: bold;
       margin-top: 20px;
     }
+
+    /* Rock Paper Scissors game styles */
+    #rps-container {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .rps-button {
+      padding: 10px 20px;
+      font-size: 20px;
+      margin: 10px;
+      cursor: pointer;
+      background-color: #2196f3;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .rps-button:hover {
+      background-color: #1e88e5;
+    }
+
+    .rps-result {
+      font-size: 22px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
   </style>
 </head>
 <body>
@@ -110,6 +138,15 @@
     <h2>Welcome to Home</h2>
     <p>This is the home section of the website.</p>
     <div id="welcome-message"></div> <!-- Display welcome message here -->
+
+    <!-- Rock Paper Scissors Game Section -->
+    <div id="rps-container">
+      <h3>Play Rock, Paper, Scissors!</h3>
+      <button class="rps-button" id="rock">Rock</button>
+      <button class="rps-button" id="paper">Paper</button>
+      <button class="rps-button" id="scissors">Scissors</button>
+      <div class="rps-result" id="rps-result"></div>
+    </div>
   </section>
 
   <section id="about">
@@ -155,6 +192,33 @@
     menuToggle.addEventListener("click", () => {
       nav.classList.toggle("active");
     });
+
+    // Rock Paper Scissors Game Logic
+    function playRPS(playerChoice) {
+      const choices = ['rock', 'paper', 'scissors'];
+      const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+
+      let result = '';
+
+      if (playerChoice === computerChoice) {
+        result = 'It\'s a draw!';
+      } else if (
+        (playerChoice === 'rock' && computerChoice === 'scissors') ||
+        (playerChoice === 'paper' && computerChoice === 'rock') ||
+        (playerChoice === 'scissors' && computerChoice === 'paper')
+      ) {
+        result = 'You win!';
+      } else {
+        result = 'Computer wins!';
+      }
+
+      document.getElementById("rps-result").textContent = `You chose ${playerChoice}. Computer chose ${computerChoice}. ${result}`;
+    }
+
+    // Add event listeners to the Rock, Paper, and Scissors buttons
+    document.getElementById("rock").addEventListener("click", () => playRPS('rock'));
+    document.getElementById("paper").addEventListener("click", () => playRPS('paper'));
+    document.getElementById("scissors").addEventListener("click", () => playRPS('scissors'));
   </script>
 
 </body>
