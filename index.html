@@ -88,6 +88,27 @@
     .countdown-container {
       margin-top: 20px;
     }
+
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav ul li {
+      margin: 0 15px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -96,6 +117,14 @@
     <h1>Welcome to My Fun Personal Website!</h1>
     <p>Let's play some Rock, Paper, Scissors, and countdown to an exciting day!</p>
   </header>
+
+  <nav>
+    <ul>
+      <li><a href="#rps">Rock-Paper-Scissors</a></li>
+      <li><a href="#countdown">Countdown</a></li>
+      <li><a href="https://oliveroriginals.com" target="_blank">Visit Oliver Originals</a></li>
+    </ul>
+  </nav>
 
   <section id="rps">
     <h2>Rock, Paper, Scissors Game</h2>
@@ -115,7 +144,7 @@
   </section>
 
   <footer>
-    <p>&copy; 2025 My Fun Website. All rights reserved.</p>
+    <p>&copy; 2025 My Fun Website. All rights reserved. <a href="https://oliveroriginals.com" target="_blank">Visit Oliver Originals</a></p>
   </footer>
 
   <script>
