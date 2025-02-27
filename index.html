@@ -61,12 +61,6 @@
       background-color: #ff6347;
     }
 
-    .rps-result {
-      font-size: 1.5rem;
-      margin-top: 20px;
-      font-weight: bold;
-    }
-
     .countdown {
       font-size: 2rem;
       color: #e91e63;
@@ -109,6 +103,23 @@
     nav a:hover {
       text-decoration: underline;
     }
+
+    /* New button style for background color change */
+    .color-button {
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .color-button:hover {
+      background-color: #45a049;
+    }
+
   </style>
 </head>
 <body>
@@ -141,6 +152,11 @@
     <div class="countdown-container">
       <div class="countdown" id="countdown-timer"></div>
     </div>
+  </section>
+
+  <!-- New Button for Changing Background Color -->
+  <section>
+    <button class="color-button" id="color-button">Change Background Color</button>
   </section>
 
   <footer>
@@ -195,6 +211,17 @@
     document.getElementById("rock").addEventListener("click", () => playRPS('rock'));
     document.getElementById("paper").addEventListener("click", () => playRPS('paper'));
     document.getElementById("scissors").addEventListener("click", () => playRPS('scissors'));
+
+    // Change Background Color Function
+    function changeBackgroundColor() {
+      const colors = ["#FFEBCD", "#FF69B4", "#FFD700", "#8A2BE2", "#98FB98"];
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      document.body.style.backgroundColor = randomColor;
+    }
+
+    // Add event listener to the color button
+    document.getElementById("color-button").addEventListener("click", changeBackgroundColor);
+
   </script>
 
 </body>
