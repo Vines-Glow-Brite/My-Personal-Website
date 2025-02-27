@@ -148,3 +148,34 @@
   </script>
 </body>
 </html>
+
+
+
+let playerScore = 0;
+let computerScore = 0;
+
+function drawScore() {
+  ctx.font = "30px Arial";
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fillText("Player: " + playerScore, canvas.width / 4, 30);
+  ctx.fillText("Computer: " + computerScore, canvas.width * 3 / 4 - 100, 30);
+}
+
+function resetBall() {
+  ball.x = canvas.width / 2;
+  ball.y = canvas.height / 2;
+  ball.dx = -ball.dx;
+  ball.dy = 5;
+
+  if (ball.x < 0) {
+    computerScore++;
+  } else {
+    playerScore++;
+  }
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawScore();
+  // Rest of the draw function...
+}
