@@ -5,25 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Games and Countdown</title>
   <style>
-    /* General Styles */
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
       background-color: #f4f4f4;
       color: #333;
       text-align: center;
-      line-height: 1.6;
     }
 
-    /* Navigation Bar Styles */
     nav {
       background-color: #333;
-      padding: 15px 0;
+      padding: 10px;
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     nav ul {
@@ -46,84 +42,56 @@
       color: white;
       text-decoration: none;
       font-size: 18px;
-      padding: 10px 15px;
+      padding: 10px;
       display: block;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s;
     }
 
     nav a:hover {
       background-color: #575757;
+      border-radius: 5px;
     }
 
-    /* Section Styles */
     section {
-      padding: 60px 20px;
+      padding: 50px 20px;
       min-height: 100vh;
     }
 
-    section h2 {
-      margin-bottom: 20px;
-      font-size: 2.5rem;
-      color: #333;
+    #pong-container, #rps-container, #countdown-container {
+      margin-top: 30px;
     }
 
-    /* Card-like Section Styling */
-    .card {
-      background-color: white;
-      border-radius: 10px;
-      padding: 30px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      width: 80%;
-      max-width: 900px;
-      margin: 20px auto;
-    }
-
-    /* Rock-Paper-Scissors Button Styles */
     .rps-button {
-      padding: 12px 25px;
-      font-size: 18px;
+      padding: 10px 20px;
+      font-size: 20px;
       margin: 10px;
       cursor: pointer;
       background-color: #2196f3;
       color: white;
       border: none;
       border-radius: 5px;
-      transition: background-color 0.3s ease;
     }
 
     .rps-button:hover {
       background-color: #1e88e5;
     }
 
-    /* Rock-Paper-Scissors Result Styling */
     .rps-result {
       font-size: 22px;
       margin-top: 20px;
       font-weight: bold;
     }
 
-    /* Countdown Timer Styling */
     .countdown {
       font-size: 30px;
       font-weight: bold;
       color: #e91e63;
     }
 
-    /* Pong Game Styles */
+    /* Pong game styles */
     canvas {
       border: 2px solid white;
-      background-color: #1d1d1d;
-      margin-top: 30px;
     }
-
-    /* Centered Container for Countdown */
-    #countdown-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
   </style>
 </head>
 <body>
@@ -138,32 +106,26 @@
 
   <!-- Pong Game Section -->
   <section id="pong">
-    <div class="card">
-      <h2>Pong Game</h2>
-      <canvas id="pong"></canvas>
-    </div>
+    <h2>Pong Game</h2>
+    <canvas id="pong"></canvas>
   </section>
 
   <!-- Rock-Paper-Scissors Section -->
   <section id="rps">
-    <div class="card">
-      <h2>Rock, Paper, Scissors</h2>
-      <div id="rps-container">
-        <button class="rps-button" id="rock">Rock</button>
-        <button class="rps-button" id="paper">Paper</button>
-        <button class="rps-button" id="scissors">Scissors</button>
-        <div class="rps-result" id="rps-result"></div>
-      </div>
+    <h2>Rock, Paper, Scissors</h2>
+    <div id="rps-container">
+      <button class="rps-button" id="rock">Rock</button>
+      <button class="rps-button" id="paper">Paper</button>
+      <button class="rps-button" id="scissors">Scissors</button>
+      <div class="rps-result" id="rps-result"></div>
     </div>
   </section>
 
   <!-- Countdown Timer Section -->
   <section id="countdown">
-    <div class="card">
-      <h2>Countdown to the Last Day of School</h2>
-      <div id="countdown-container">
-        <div class="countdown" id="countdown-timer"></div>
-      </div>
+    <h2>Countdown to the Last Day of School</h2>
+    <div id="countdown-container">
+      <div class="countdown" id="countdown-timer"></div>
     </div>
   </section>
 
@@ -179,7 +141,7 @@
       const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-      document.getElementById("countdown-timer").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      document.getElementById("countdown-timer").innerHTML = ${days}d ${hours}h ${minutes}m ${seconds}s;
 
       if (timeLeft < 0) {
         clearInterval(countdownInterval);
@@ -208,7 +170,7 @@
         result = 'Computer wins!';
       }
 
-      document.getElementById("rps-result").textContent = `You chose ${playerChoice}. Computer chose ${computerChoice}. ${result}`;
+      document.getElementById("rps-result").textContent = You chose ${playerChoice}. Computer chose ${computerChoice}. ${result};
     }
 
     // Add event listeners to the Rock, Paper, and Scissors buttons
