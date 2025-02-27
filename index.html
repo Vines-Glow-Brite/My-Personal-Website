@@ -282,4 +282,64 @@
       }
 
       // Ball collision with paddles
-      if (ball.x - ball.radius < player.x + player.width && ball.y > player.y && ball.y < player.y + player.height
+      if (ball.x - ball.radius < player.x + player.width && ball.y > player.y && ball.y < player.y + player.height ||
+          ball.x + ball.radius > computer.x && ball.y > computer.y && ball.y < computer.y + computer.height) {
+        ball.dx = -ball.dx;
+      }
+
+      // Ball out of bounds
+      if (ball.x + ball.dx < 0 || ball.x + ball.dx > canvas.width) {
+        resetBall();
+      }
+
+      // Move the paddles
+      player.y += player.dy;
+      computer.y += computer.dy;
+
+      // Computer AI to follow the ball
+      if (ball.y < computer.y + computer.height / 2) {
+        computer.dy = -5;
+      } else if (ball.y > computer.y + computer.height / 2) {
+        computer.dy = 5;
+      } else {
+        computer.dy = 0;
+      }
+
+      // Prevent paddles from going out of bounds
+      if (player.y < 0) player.y = 0;
+      if (player.y + player.height > canvas.height) player.y = canvas.height - player.height;
+      if (computer.y < 0) computer.y = 0;
+      if (computer.y + computer.height > canvas.height) computer.y = canvas.height - computer.height;
+
+      requestAnimationFrame(draw);
+    }
+
+    // Reset ball to center after a point is scored
+    function resetBall() {
+      ball.x = canvas.width / 2;
+      ball.y = canvas.height / 2;
+      ball.dx = -ball.dx;
+      ball.dy = 5;
+    }
+
+    // Control player paddle with arrow keys
+    document.addEventListener("keydown", function (e) {
+      if (e.key == "ArrowUp") {
+        player.dy = -5;
+      } else if (e.key == "ArrowDown") {
+        player.dy = 5;
+      }
+    });
+
+    document.addEventListener("keyup", function (e) {
+      if (e.key == "ArrowUp" || e.key == "ArrowDown") {
+        player.dy = 0;
+      }
+    });
+
+    // Start the game loop
+    draw();
+  </script>
+
+</body>
+</html>
