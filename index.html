@@ -1,30 +1,202 @@
-/* Default Light Mode Styles */
-body {
-  background-color: #ffffff;
-  color: #000000;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pong Game with Dark Mode</title>
+  <style>
+    /* Default Light Mode Styles */
+    body {
+      background-color: #ffffff;
+      color: #000000;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-/* Dark Mode Styles */
-body.dark-mode {
-  background-color: #181818;
-  color: #ffffff;
-}
+    /* Dark Mode Styles */
+    body.dark-mode {
+      background-color: #181818;
+      color: #ffffff;
+    }
 
-#pong {
-  border: 2px solid white; /* you can customize the border color for dark mode */
-}
+    canvas {
+      border: 2px solid white;
+    }
 
-button {
-  background-color: #444;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
-}
+    #darkModeToggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 10px;
+      background-color: #444;
+      color: #fff;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
 
-button:hover {
-  background-color: #555;
-}
+    #darkModeToggle:hover {
+      background-color: #555;
+    }
+  </style>
+</head>
+<body>
+  <button id="darkModeToggle">Switch to Dark Mode</button>
+  <canvas id="pong"></canvas>
+
+  <script>
+    // Set up the canvas and context
+    const canvas = document.getElementById("pong");
+    const ctx = canvas.getContext("2d");
+
+    // Set up the canvas size
+    canvas.width = 800;
+    canvas.height = 400;
+
+    // Create the paddle objects
+    const paddleWidth = 10, paddleHeight = 100;
+    const player = {
+      x: 0,
+      y: canvas.height / 2 - paddleHeight / 2,
+      width: paddleWidth,
+      height: paddleHeight,
+      color: "#FF0000",
+      dy: 0
+    };
+
+    const computer = {
+      x: canvas.width - paddleWidth,
+      y: canvas.height / 2 - paddleHeight / 2,
+      width: paddleWidth,
+      height: paddleHeight,
+      color: "#00FF00",
+      dy: 0
+    };
+
+    // Create the ball object
+    const ball = {
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      radius: 10,
+      speed: 5,
+      dx: 5,
+      dy: 5,
+      color: "#FFFFFF"
+    };
+
+    // Draw function to render all game elements
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw paddles
+      ctx.fillStyle = player.color;
+      ctx.fillRect(player.x, player.y, player.width, player.height);
+
+      ctx.fillStyle = computer.color;
+      ctx.fillRect(computer.x, computer.y, computer.width, computer.height);
+
+      // Draw the ball
+      ctx.fillStyle = ball.color;
+      ctx.beginPath();
+      ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Move the ball
+      ball.x += ball.dx;
+      ball.y += ball.dy;
+
+      // Ball collision with top and bottom walls
+      if (ball.y + ball.dy < ball.radius || ball.y + ball.dy > canvas.height - ball.radius) {
+        ball.dy = -ball.dy;
+      }
+
+      // Ball collision with paddles
+      if (ball.x - ball.radius < player.x + player.width && ball.y > player.y && ball.y < player.y + player.height ||
+          ball.x + ball.radius > computer.x && ball.y > computer.y && ball.y < computer.y + computer.height) {
+        ball.dx = -ball.dx;
+      }
+
+      // Ball out of bounds
+      if (ball.x + ball.dx < 0 || ball.x + ball.dx > canvas.width) {
+        resetBall();
+      }
+
+      // Move the paddles
+      player.y += player.dy;
+      computer.y += computer.dy;
+
+      // Computer AI to follow the ball
+      if (ball.y < computer.y + computer.height / 2) {
+        computer.dy = -5;
+      } else if (ball.y > computer.y + computer.height / 2) {
+        computer.dy = 5;
+      } else {
+        computer.dy = 0;
+      }
+
+      // Prevent paddles from going out of bounds
+      if (player.y < 0) player.y = 0;
+      if (player.y + player.height > canvas.height) player.y = canvas.height - player.height;
+      if (computer.y < 0) computer.y = 0;
+      if (computer.y + computer.height > canvas.height) computer.y = canvas.height - computer.height;
+
+      requestAnimationFrame(draw);
+    }
+
+    // Reset ball to center after a point is scored
+    function resetBall() {
+      ball.x = canvas.width / 2;
+      ball.y = canvas.height / 2;
+      ball.dx = -ball.dx;
+      ball.dy = 5;
+    }
+
+    // Control player paddle with arrow keys
+    document.addEventListener("keydown", function (e) {
+      if (e.key == "ArrowUp") {
+        player.dy = -5;
+      } else if (e.key == "ArrowDown") {
+        player.dy = 5;
+      }
+    });
+
+    document.addEventListener("keyup", function (e) {
+      if (e.key == "ArrowUp" || e.key == "ArrowDown") {
+        player.dy = 0;
+      }
+    });
+
+    // Get the button and check if dark mode was previously set
+    const toggleButton = document.getElementById("darkModeToggle");
+    const body = document.body;
+
+    // Check if dark mode was previously enabled
+    if (localStorage.getItem("darkMode") === "enabled") {
+      body.classList.add("dark-mode");
+      toggleButton.textContent = "Switch to Light Mode";
+    }
+
+    // Toggle dark mode when button is clicked
+    toggleButton.addEventListener("click", () => {
+      body.classList.toggle("dark-mode");
+
+      if (body.classList.contains("dark-mode")) {
+        localStorage.setItem("darkMode", "enabled");
+        toggleButton.textContent = "Switch to Light Mode";
+      } else {
+        localStorage.setItem("darkMode", "disabled");
+        toggleButton.textContent = "Switch to Dark Mode";
+      }
+    });
+
+    // Start the game loop
+    draw();
+  </script>
+</body>
+</html>
