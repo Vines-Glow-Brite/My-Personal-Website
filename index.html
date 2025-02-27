@@ -191,7 +191,7 @@
           y: Math.random() * window.innerHeight - window.innerHeight,
           size: Math.random() * 10 + 5,
           speed: Math.random() * 3 + 2,
-          color: hsl(${Math.random() * 360}, 100%, 70%)
+          color: `hsl(${Math.random() * 360}, 100%, 70%)`
         });
       }
 
@@ -227,13 +227,13 @@
       ) {
         result = 'You win!';
         playerScore++;
-        document.getElementById("score-counter").textContent = Score: ${playerScore};
+        document.getElementById("score-counter").textContent = `Score: ${playerScore}`;
         launchConfetti();
       } else {
         result = 'Computer wins!';
       }
 
-      document.getElementById("rps-result").textContent = You chose ${playerChoice}. Computer chose ${computerChoice}. ${result};
+      document.getElementById("rps-result").textContent = `You chose ${playerChoice}. Computer chose ${computerChoice}. ${result}`;
     }
 
     document.getElementById("rock").addEventListener("click", () => playRPS('rock'));
