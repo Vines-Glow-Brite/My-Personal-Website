@@ -1,62 +1,124 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Rock Paper Scissors Game
-    const choices = ["rock", "paper", "scissors"];
-    const buttons = document.querySelectorAll(".rps-button");
-    const resultDisplay = document.getElementById("rps-result");
-    const scoreCounter = document.getElementById("score-counter");
-    let score = 0;
-
-    buttons.forEach(button => {
-        button.addEventListener("click", function() {
-            const userChoice = this.id;
-            const computerChoice = choices[Math.floor(Math.random() * choices.length)];
-            let result = "";
-
-            if (userChoice === computerChoice) {
-                result = "It's a tie!";
-            } else if (
-                (userChoice === "rock" && computerChoice === "scissors") ||
-                (userChoice === "paper" && computerChoice === "rock") ||
-                (userChoice === "scissors" && computerChoice === "paper")
-            ) {
-                result = "You win!";
-                score++;
-            } else {
-                result = "You lose!";
-                score--;
-            }
-
-            resultDisplay.textContent = `You chose ${userChoice}, Computer chose ${computerChoice}. ${result}`;
-            scoreCounter.textContent = `Score: ${score}`;
-        });
-    });
-
-    // Countdown Timer
-    function updateCountdown() {
-        const targetDate = new Date("May 30, 2025").getTime();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Fun Personal Website</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #ffebcd;
+      color: #333;
+      text-align: center;
+    }
+    header {
+      background-color: #ff69b4;
+      padding: 20px;
+      color: white;
+    }
+    section {
+      margin: 30px 20px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .rps-button {
+      padding: 15px 30px;
+      font-size: 20px;
+      margin: 10px;
+      cursor: pointer;
+      background-color: #ff8c00;
+      color: white;
+      border: none;
+      border-radius: 10px;
+    }
+    .countdown {
+      font-size: 2rem;
+      color: #e91e63;
+      font-weight: bold;
+    }
+    .color-button {
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>♡ Welcome to My Website! ♡</h1>
+    <p>Made by Gwen Oliver!</p>
+  </header>
+  
+  <section id="rps">
+    <h2>Rock, Paper, Scissors Game</h2>
+    <button class="rps-button" onclick="playRPS('rock')">Rock</button>
+    <button class="rps-button" onclick="playRPS('paper')">Paper</button>
+    <button class="rps-button" onclick="playRPS('scissors')">Scissors</button>
+    <p id="rps-result"></p>
+  </section>
+  
+  <section id="countdown">
+    <h2>Countdown to May 30, 2025</h2>
+    <p class="countdown" id="countdown-timer"></p>
+  </section>
+  
+  <section>
+    <button class="color-button" onclick="changeBackgroundColor()">Change Background Color</button>
+  </section>
+  
+  <script>
+    function playRPS(playerChoice) {
+      const choices = ['rock', 'paper', 'scissors'];
+      const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+      let result = '';
+      
+      if (playerChoice === computerChoice) {
+        result = "It's a draw!";
+      } else if (
+        (playerChoice === 'rock' && computerChoice === 'scissors') ||
+        (playerChoice === 'paper' && computerChoice === 'rock') ||
+        (playerChoice === 'scissors' && computerChoice === 'paper')
+      ) {
+        result = "You win!";
+      } else {
+        result = "Computer wins!";
+      }
+      
+      document.getElementById("rps-result").textContent = `You chose ${playerChoice}. Computer chose ${computerChoice}. ${result}`;
+    }
+    
+    function changeBackgroundColor() {
+      const colors = ["#FFEBCD", "#FF69B4", "#FFD700", "#8A2BE2", "#98FB98"];
+      document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    }
+    
+    function startCountdown() {
+      const targetDate = new Date("May 30, 2025 00:00:00").getTime();
+      function updateCountdown() {
         const now = new Date().getTime();
         const timeLeft = targetDate - now;
-
         if (timeLeft <= 0) {
-            document.getElementById("countdown-timer").textContent = "Countdown ended!";
-            return;
+          document.getElementById("countdown-timer").textContent = "🎉 The countdown is over! 🎉";
+          return;
         }
-
         const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
         const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
         document.getElementById("countdown-timer").textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        setTimeout(updateCountdown, 1000);
+      }
+      updateCountdown();
     }
-
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-
-    // Background Color Changer
-    const colorButton = document.getElementById("color-button");
-    colorButton.addEventListener("click", function() {
-        const colors = ["#ffebcd", "#add8e6", "#98fb98", "#f08080", "#dda0dd"];
-        document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-    });
-});
+    startCountdown();
+  </script>
+</body>
+</html>
