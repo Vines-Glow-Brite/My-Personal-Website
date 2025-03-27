@@ -125,7 +125,6 @@
     .color-button:hover {
       background-color: #45a049;
     }
-
   </style>
 </head>
 <body>
@@ -173,44 +172,7 @@
     let playerScore = 0;
 
     function launchConfetti() {
-      const confettiCanvas = document.createElement("canvas");
-      confettiCanvas.style.position = "fixed";
-      confettiCanvas.style.top = "0";
-      confettiCanvas.style.left = "0";
-      confettiCanvas.style.width = "100vw";
-      confettiCanvas.style.height = "100vh";
-      confettiCanvas.style.pointerEvents = "none";
-      document.body.appendChild(confettiCanvas);
-
-      const confettiCtx = confettiCanvas.getContext("2d");
-      const confettiParticles = [];
-
-      for (let i = 0; i < 100; i++) {
-        confettiParticles.push({
-          x: Math.random() * window.innerWidth,
-          y: Math.random() * window.innerHeight - window.innerHeight,
-          size: Math.random() * 10 + 5,
-          speed: Math.random() * 3 + 2,
-          color: hsl(${Math.random() * 360}, 100%, 70%)
-        });
-      }
-
-      function drawConfetti() {
-        confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-        confettiParticles.forEach((p, i) => {
-          p.y += p.speed;
-          confettiCtx.fillStyle = p.color;
-          confettiCtx.beginPath();
-          confettiCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          confettiCtx.fill();
-
-          if (p.y > window.innerHeight) confettiParticles[i].y = -10;
-        });
-        requestAnimationFrame(drawConfetti);
-      }
-
-      drawConfetti();
-      setTimeout(() => document.body.removeChild(confettiCanvas), 3000);
+      alert("Confetti effect would play here!");
     }
 
     function playRPS(playerChoice) {
@@ -227,53 +189,18 @@
       ) {
         result = 'You win!';
         playerScore++;
-        document.getElementById("score-counter").textContent = Score: ${playerScore};
+        document.getElementById("score-counter").textContent = `Score: ${playerScore}`;
         launchConfetti();
       } else {
         result = 'Computer wins!';
       }
 
-      document.getElementById("rps-result").textContent = You chose ${playerChoice}. Computer chose ${computerChoice}. ${result};
+      document.getElementById("rps-result").textContent = `You chose ${playerChoice}. Computer chose ${computerChoice}. ${result}`;
     }
 
     document.getElementById("rock").addEventListener("click", () => playRPS('rock'));
     document.getElementById("paper").addEventListener("click", () => playRPS('paper'));
     document.getElementById("scissors").addEventListener("click", () => playRPS('scissors'));
-
-    function changeBackgroundColor() {
-      const colors = ["#FFEBCD", "#FF69B4", "#FFD700", "#8A2BE2", "#98FB98"];
-      document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-    }
-
-    document.getElementById("color-button").addEventListener("click", changeBackgroundColor);
-
-    function startCountdown() {
-      const targetDate = new Date("May 30, 2025 00:00:00").getTime();
-
-      function updateCountdown() {
-        const now = new Date().getTime();
-        const timeLeft = targetDate - now;
-
-        if (timeLeft <= 0) {
-          document.getElementById("countdown-timer").innerHTML = "🎉 The countdown is over! 🎉";
-          return;
-        }
-
-        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-        document.getElementById("countdown-timer").innerHTML = ${days}d ${hours}h ${minutes}m ${seconds}s;
-
-        setTimeout(updateCountdown, 1000);
-      }
-
-      updateCountdown();
-    }
-
-    startCountdown();
   </script>
-
 </body>
 </html>
