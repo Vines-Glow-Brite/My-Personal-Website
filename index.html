@@ -85,9 +85,89 @@
       margin: 0;
       font-size: 1.2rem;
     }
+
+    .countdown-container {
+      margin-top: 20px;
+    }
+
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav ul li {
+      margin: 0 15px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .color-button {
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .color-button:hover {
+      background-color: #45a049;
+    }
+
   </style>
 </head>
 <body>
+
+  <header>
+    <h1>♡ 𝒲𝑒𝓁𝒸𝑜𝓂𝑒 𝓉𝑜 𝓂𝓎 𝓌𝑒𝒷𝓈𝒾𝓉𝑒! ♡</h1>
+    <p>Made by Gwen Oliver!</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#rps">Rock-Paper-Scissors</a></li>
+      <li><a href="#countdown">Countdown</a></li>
+      <li><a href="https://oliveroriginals.com" target="_blank">Visit Oliver Originals</a></li>
+    </ul>
+  </nav>
+
+  <section id="rps">
+    <h2>Rock, Paper, Scissors Game</h2>
+    <div class="rps-container">
+      <button class="rps-button" id="rock">Rock</button>
+      <button class="rps-button" id="paper">Paper</button>
+      <button class="rps-button" id="scissors">Scissors</button>
+    </div>
+    <div class="rps-result" id="rps-result"></div>
+    <p id="score-counter">Score: 0</p>
+  </section>
+
+  <section id="countdown">
+    <h2>Countdown to May 30, 2025</h2>
+    <div class="countdown-container">
+      <div class="countdown" id="countdown-timer"></div>
+    </div>
+  </section>
+
+  <section>
+    <button class="color-button" id="color-button">Change Background Color</button>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 My Fun Website. All rights reserved. <a href="https://oliveroriginals.com" target="_blank">Visit Oliver Originals</a></p>
+  </footer>
 
   <script>
     let playerScore = 0;
@@ -111,7 +191,7 @@
           y: Math.random() * window.innerHeight - window.innerHeight,
           size: Math.random() * 10 + 5,
           speed: Math.random() * 3 + 2,
-          color: `hsl(${Math.random() * 360}, 100%, 70%)`
+          color: hsl(${Math.random() * 360}, 100%, 70%)
         });
       }
 
@@ -139,22 +219,33 @@
       let result = '';
 
       if (playerChoice === computerChoice) {
-        result = "It's a draw!";
+        result = 'It\'s a draw!';
       } else if (
         (playerChoice === 'rock' && computerChoice === 'scissors') ||
         (playerChoice === 'paper' && computerChoice === 'rock') ||
         (playerChoice === 'scissors' && computerChoice === 'paper')
       ) {
-        result = "You win!";
+        result = 'You win!';
         playerScore++;
-        document.getElementById("score-counter").textContent = `Score: ${playerScore}`;
+        document.getElementById("score-counter").textContent = Score: ${playerScore};
         launchConfetti();
       } else {
-        result = "Computer wins!";
+        result = 'Computer wins!';
       }
 
-      document.getElementById("rps-result").textContent = `You chose ${playerChoice}. Computer chose ${computerChoice}. ${result}`;
+      document.getElementById("rps-result").textContent = You chose ${playerChoice}. Computer chose ${computerChoice}. ${result};
     }
+
+    document.getElementById("rock").addEventListener("click", () => playRPS('rock'));
+    document.getElementById("paper").addEventListener("click", () => playRPS('paper'));
+    document.getElementById("scissors").addEventListener("click", () => playRPS('scissors'));
+
+    function changeBackgroundColor() {
+      const colors = ["#FFEBCD", "#FF69B4", "#FFD700", "#8A2BE2", "#98FB98"];
+      document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    document.getElementById("color-button").addEventListener("click", changeBackgroundColor);
 
     function startCountdown() {
       const targetDate = new Date("May 30, 2025 00:00:00").getTime();
@@ -168,12 +259,12 @@
           return;
         }
 
-        const days = String(Math.floor(timeLeft / (1000 * 60 * 60 * 24))).padStart(2, '0');
-        const hours = String(Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-        const minutes = String(Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-        const seconds = String(Math.floor((timeLeft % (1000 * 60)) / 1000)).padStart(2, '0');
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-        document.getElementById("countdown-timer").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        document.getElementById("countdown-timer").innerHTML = ${days}d ${hours}h ${minutes}m ${seconds}s;
 
         setTimeout(updateCountdown, 1000);
       }
@@ -183,5 +274,6 @@
 
     startCountdown();
   </script>
+
 </body>
 </html>
